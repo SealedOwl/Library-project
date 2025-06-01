@@ -1,0 +1,54 @@
+:root {
+  --h1: 5em;
+  --blue: oklch(54.6% 0.245 262.881);
+  --white: #fff;
+  --sm: 1.5rem;
+}
+
+html,
+body {
+  height: 100%;
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif,
+    system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell;
+}
+
+.library-container {
+  height: 100%;
+  display: grid;
+  grid-template-rows: 7rem 7rem 1fr 3rem;
+  grid-template-areas:
+    "header"
+    "add"
+    "main"
+    "footer";
+}
+
+.header {
+  grid-area: header;
+  padding: 3em 1em;
+  display: flex;
+  align-items: center;
+  gap: 1em;
+  border-bottom: 2px solid #000;
+}
+
+.header > img {
+  height: 4rem;
+  width: auto;
+}
+
+.add-books {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.add-btn {
+  padding: 1em;
+  background: var(--blue);
+  color: var(--white);
+  border: none;
+  font-size: var(--sm);
+  cursor: pointer;
+}
