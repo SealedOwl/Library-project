@@ -8,6 +8,7 @@
   --green-hover: oklch(70% 0.209 151.711);
   --red: oklch(63.7% 0.237 25.331);
   --red-hover: oklch(58% 0.237 25.331);
+  --grey: hsl(280, 10%, 90%);
   --lg: 2rem;
   --med: 1.8rem;
   --sm: 1.5rem;
@@ -32,6 +33,8 @@ body {
     "main"
     "footer";
 }
+
+/* Header  */
 
 .header {
   grid-area: header;
@@ -71,6 +74,8 @@ body {
   width: auto;
   filter: invert(1);
 }
+
+/* Main  */
 
 .books-grid {
   grid-area: main;
@@ -130,7 +135,8 @@ body {
 }
 
 .read-btn,
-.dlt-btn {
+.dlt-btn,
+.submit-btn {
   padding: 1em;
   border-radius: 1em;
   border: none;
@@ -148,7 +154,8 @@ body {
   width: auto;
 }
 
-.read-btn {
+.read-btn,
+.submit-btn {
   background: var(--green);
 }
 
@@ -156,7 +163,10 @@ body {
   background: var(--red);
 }
 
+/* Footer  */
+
 .footer {
+  grid-area: footer;
   border-top: 2px solid #000;
   display: flex;
   justify-content: center;
@@ -197,10 +207,71 @@ body {
   background: var(--blue-hover);
 }
 
-.read-btn:hover {
+.read-btn:hover,
+.submit-btn:hover {
   background: var(--green-hover);
 }
 
 .dlt-btn:hover {
   background: var(--red-hover);
+}
+
+/* Dialog  */
+
+dialog::backdrop {
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 35rem;
+  background: var(--grey);
+  padding: 2em;
+  border: none;
+  border-radius: 10px;
+}
+
+.modal-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 2em;
+}
+
+.input {
+  width: 100%;
+  padding: 1em;
+  border-radius: 8px;
+}
+
+.modal-form > button {
+  width: 100%;
+  padding: 1em 1.5em;
+}
+
+.input,
+.modal-form > button {
+  border: none;
+  font-size: var(--lg);
+  outline: none;
+}
+
+.modal-form > h1 {
+  font-size: var(--h1);
+}
+
+.is-read {
+  display: flex;
+  gap: 0.5em;
+  font-size: var(--lg);
+}
+
+.checkbox {
+  width: 2rem;
+  height: auto;
+  accent-color: #fff;
 }
