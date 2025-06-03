@@ -1,7 +1,6 @@
 "use strict";
 
 const addBtn = document.querySelector(".add-btn");
-const readBtn = document.querySelector(".read-btn");
 const dltBtn = document.querySelector(".dlt-btn");
 const modalSubmitBtn = document.querySelector(".submit-btn");
 
@@ -37,3 +36,16 @@ modal.addEventListener("click", (e) => {
 // window.addEventListener("DOMContentLoaded", () => {
 //   document.querySelector(".modal").setAttribute("open", "");
 // });
+
+// Read or not
+
+document.querySelectorAll(".read-btn, .not-read-btn").forEach((btn) => {
+  btn.addEventListener("click", () => {
+    const isRead = btn.classList.toggle("read-btn");
+    btn.classList.toggle("not-read-btn");
+
+    btn.innerHTML = isRead
+      ? '<img src="./images/check-mark.png" alt="read" /> Read'
+      : '<img src="./images/x-mark.png" alt="not read" /> Not read';
+  });
+});

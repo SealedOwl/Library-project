@@ -8,7 +8,8 @@
   --green-hover: oklch(70% 0.209 151.711);
   --red: oklch(63.7% 0.237 25.331);
   --red-hover: oklch(58% 0.237 25.331);
-  --grey: hsl(280, 10%, 90%);
+  --grey: hsl(276, 10%, 90%);
+  --grey-hover: hsl(276, 10%, 80%);
   --lg: 2rem;
   --med: 1.8rem;
   --sm: 1.5rem;
@@ -136,7 +137,8 @@ body {
 
 .read-btn,
 .dlt-btn,
-.submit-btn {
+.submit-btn,
+.not-read-btn {
   padding: 1em;
   border-radius: 1em;
   border: none;
@@ -149,7 +151,8 @@ body {
 }
 
 .read-btn img,
-.dlt-btn img {
+.dlt-btn img,
+.not-read-btn img {
   height: 1.9rem;
   width: auto;
 }
@@ -161,6 +164,10 @@ body {
 
 .dlt-btn {
   background: var(--red);
+}
+
+.not-read-btn {
+  background: var(--grey);
 }
 
 /* Footer  */
@@ -214,6 +221,10 @@ body {
 
 .dlt-btn:hover {
   background: var(--red-hover);
+}
+
+.not-read-btn:hover {
+  background: var(--grey-hover);
 }
 
 /* Dialog  */
