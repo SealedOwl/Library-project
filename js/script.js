@@ -5,10 +5,29 @@ const modalSubmitBtn = document.querySelector(".submit-btn");
 
 const booksGrid = document.querySelector(".books-grid");
 const modal = document.querySelector(".modal");
+const modalForm = document.querySelector(".modal-form");
 
-const myLibrary = [];
+const myLibrary = [
+  {
+    title: "I Had That Same Dream Again",
+    author: "Yoru Sumino",
+    pages: 107,
+    isRead: true,
+  },
+  {
+    title: "The Boy, the Mole, the Fox and the Horse",
+    author: "Charlie Mackes",
+    pages: 39,
+    isRead: true,
+  },
+];
 
-const Book = function (title, author, pages, isRead = "false") {
+const Book = function (
+  title = "Unknown",
+  author = "Unknown",
+  pages = "Unknown",
+  isRead = false
+) {
   this.title = title;
   this.author = author;
   this.pages = pages;
@@ -23,12 +42,12 @@ addBtn.addEventListener("click", () => {
 
 modal.addEventListener("click", (e) => {
   const dialogDimensions = modal.getBoundingClientRect();
-  if (
+  const isOutside =
     e.clientX < dialogDimensions.left ||
     e.clientX > dialogDimensions.right ||
     e.clientY < dialogDimensions.top ||
-    e.clientY > dialogDimensions.bottom
-  ) {
+    e.clientY > dialogDimensions.bottom;
+  if (isOutside && e.target === modal) {
     modal.close();
   }
 });
@@ -66,4 +85,29 @@ booksGrid.addEventListener("click", (e) => {
     if (bookCard) bookCard.remove();
     return;
   }
+});
+
+// Create Book objects
+
+modalForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+
+  // check form validity before submit
+
+  if (!modalForm.checkValidity()) {
+    modalForm.reportValidity();
+    return;
+  }
+
+  const title = document.getElementById("title").value.trim();
+  const author = document.getElementById("author").value.trim();
+  const pages = document.getElementById("pages").value.trim();
+  const isRead = document.getElementById("isRead").checked;
+
+  const newBook = new Book(title, author, pages, isRead);
+
+  myLibrary.push(newBook);
+
+  modalForm.reset();
+  modal.close();
 });
