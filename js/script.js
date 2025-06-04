@@ -7,32 +7,30 @@ const booksGrid = document.querySelector(".books-grid");
 const modal = document.querySelector(".modal");
 const modalForm = document.querySelector(".modal-form");
 
-const myLibrary = [
-  {
-    title: "I Had That Same Dream Again",
-    author: "Yoru Sumino",
-    pages: 107,
-    isRead: true,
-  },
-  {
-    title: "The Boy, the Mole, the Fox and the Horse",
-    author: "Charlie Mackes",
-    pages: 39,
-    isRead: true,
-  },
-];
-
 const Book = function (
   title = "Unknown",
   author = "Unknown",
   pages = "Unknown",
   isRead = false
 ) {
+  this.id = crypto.randomUUID();
   this.title = title;
   this.author = author;
   this.pages = pages;
   this.isRead = isRead;
 };
+
+const myLibrary = [
+  new Book("I Had That Same Dream Again", "Yoru Sumino", 107, true),
+  new Book(
+    "The Boy, the Mole, the Fox and the Horse",
+    "Charlie Mackes",
+    39,
+    true
+  ),
+];
+
+// Add book button
 
 addBtn.addEventListener("click", () => {
   modal.showModal();
@@ -52,37 +50,36 @@ modal.addEventListener("click", (e) => {
   }
 });
 
-// Keep the dialog opened
-
-// window.addEventListener("DOMContentLoaded", () => {
-//   document.querySelector(".modal").setAttribute("open", "");
-// });
-
-// Read or not button
-// Delete book card
-// Event delegation
-
 booksGrid.addEventListener("click", (e) => {
   const readBtn = e.target.closest(".read-btn, .not-read-btn");
   const dltBtn = e.target.closest(".dlt-btn");
+  const card = e.target.closest(".books");
+
+  if (!card) return;
+
+  const bookId = card.dataset.id;
 
   // Read or not-read toggle button
 
   if (readBtn) {
-    const isNowRead = readBtn.classList.toggle("read-btn");
-    readBtn.classList.toggle("not-read-btn");
+    const book = myLibrary.find((book) => book.id === bookId);
 
-    readBtn.innerHTML = isNowRead
-      ? '<img src="./images/check-mark.png" alt="read" /> Read'
-      : '<img src="./images/x-mark.png" alt="not read" /> Not read';
+    if (book) {
+      book.isRead = !book.isRead;
+      renderLibrary();
+    }
+
     return;
   }
 
   // Delete book card
 
   if (dltBtn) {
-    const bookCard = dltBtn.closest(".books");
-    if (bookCard) bookCard.remove();
+    const index = myLibrary.findIndex((book) => book.id === bookId);
+    if (index !== -1) {
+      myLibrary.splice(index, 1);
+      renderLibrary();
+    }
     return;
   }
 });
@@ -110,4 +107,58 @@ modalForm.addEventListener("submit", (e) => {
 
   modalForm.reset();
   modal.close();
+
+  // Re-render
+  renderLibrary();
 });
+
+// Create book card
+
+const createBookCard = function (book) {
+  const bookCard = document.createElement("div");
+  bookCard.classList.add("books");
+  bookCard.dataset.id = book.id;
+
+  bookCard.innerHTML = `
+          <div class="book-details">
+            <h2 class="title">${book.title}</h2>
+            <div class="author book-texts">
+              <p class="description">Author :</p>
+              <p class="description">${book.author}</p>
+            </div>
+            <div class="total-pages book-texts">
+              <p class="description">Total Pages :</p>
+              <p class="description">${book.pages}</p>
+            </div>
+          </div>
+
+          <div class="btns-container">
+            <button class="${book.isRead ? "read-btn" : "not-read-btn"}">
+              <img src="./images/${
+                book.isRead ? "check-mark.png" : "x-mark.png"
+              }" alt="${book.isRead ? "read" : "not read"}" /> ${
+    book.isRead ? "Read" : "Not read"
+  }
+            </button>
+            <button class="dlt-btn">
+              <img src="./images/delete.png" alt="delete" /> Delete
+            </button>
+          </div>
+  `;
+
+  return bookCard;
+};
+
+// Render books from library
+
+const renderLibrary = function () {
+  booksGrid.innerHTML = "";
+
+  myLibrary.forEach((book) => {
+    const card = createBookCard(book);
+    booksGrid.appendChild(card);
+  });
+};
+
+// Initial render
+renderLibrary();
