@@ -11,24 +11,41 @@ const Book = function (
   title = "Unknown",
   author = "Unknown",
   pages = "Unknown",
-  isRead = false
+  isRead = false,
+  id = crypto.randomUUID()
 ) {
-  this.id = crypto.randomUUID();
+  this.id = id;
   this.title = title;
   this.author = author;
   this.pages = pages;
   this.isRead = isRead;
 };
 
-const myLibrary = [
-  new Book("I Had That Same Dream Again", "Yoru Sumino", 107, true),
-  new Book(
-    "The Boy, the Mole, the Fox and the Horse",
-    "Charlie Mackes",
-    39,
-    true
-  ),
-];
+let myLibrary = [];
+
+const storedLibrary = localStorage.getItem("myLibrary");
+
+if (storedLibrary) {
+  myLibrary = JSON.parse(storedLibrary).map((book) => {
+    return new Book(book.title, book.author, book.pages, book.isRead);
+  });
+} else {
+  myLibrary = [
+    new Book("I Had That Same Dream Again", "Yoru Sumino", 107, true),
+    new Book(
+      "The Boy, the Mole, the Fox and the Horse",
+      "Charlie Mackes",
+      39,
+      true
+    ),
+  ];
+}
+
+// Save library to Local Storage
+
+const saveLibrary = function () {
+  localStorage.setItem("myLibrary", JSON.stringify(myLibrary));
+};
 
 // Add book button
 
@@ -66,6 +83,7 @@ booksGrid.addEventListener("click", (e) => {
 
     if (book) {
       book.isRead = !book.isRead;
+      saveLibrary();
       renderLibrary();
     }
 
@@ -78,6 +96,7 @@ booksGrid.addEventListener("click", (e) => {
     const index = myLibrary.findIndex((book) => book.id === bookId);
     if (index !== -1) {
       myLibrary.splice(index, 1);
+      saveLibrary();
       renderLibrary();
     }
     return;
@@ -104,6 +123,7 @@ modalForm.addEventListener("submit", (e) => {
   const newBook = new Book(title, author, pages, isRead);
 
   myLibrary.push(newBook);
+  saveLibrary();
 
   modalForm.reset();
   modal.close();
