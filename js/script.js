@@ -7,19 +7,20 @@ const booksGrid = document.querySelector(".books-grid");
 const modal = document.querySelector(".modal");
 const modalForm = document.querySelector(".modal-form");
 
-const Book = function (
-  title = "Unknown",
-  author = "Unknown",
-  pages = "Unknown",
-  isRead = false,
-  id = crypto.randomUUID()
-) {
-  this.id = id;
-  this.title = title;
-  this.author = author;
-  this.pages = pages;
-  this.isRead = isRead;
-};
+class Book {
+  constructor(
+    title = "Unknown",
+    author = "Unknown",
+    pages = "Unknown",
+    isRead = false
+  ) {
+    this.title = title;
+    this.author = author;
+    this.pages = pages;
+    this.isRead = isRead;
+    this.id = crypto.randomUUID();
+  }
+}
 
 let myLibrary = [];
 
